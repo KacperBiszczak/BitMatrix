@@ -5,7 +5,7 @@ using System.Diagnostics.Metrics;
 namespace BitMatrix;
 
 // prostokątna macierz bitów o wymiarach m x n
-public class BitMatrix: IEquatable<BitMatrix>
+public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>     
 {
     private BitArray data;
     public int NumberOfRows { get; }
@@ -16,13 +16,20 @@ public class BitMatrix: IEquatable<BitMatrix>
     {
         get
         {
+            if(row < 0 || column < 0 || row >= NumberOfRows || column >= NumberOfColumns)
+                throw new IndexOutOfRangeException();
+
             int index = row * NumberOfRows + column;
             return BoolToBit(data[index]);
         }
 
         set
         {
-            //data[row * NumberOfRows + column] = value;
+            if (row < 0 || column < 0 || row >= NumberOfRows || column >= NumberOfColumns)
+                throw new IndexOutOfRangeException();
+
+            int index = row * NumberOfRows + column;
+            data[index] = BitToBool(value);
         }
     }
 
@@ -124,6 +131,22 @@ public class BitMatrix: IEquatable<BitMatrix>
     public override int GetHashCode()
     {
         return data.GetHashCode();
+    }
+
+    public IEnumerator<int> GetEnumerator()
+    {
+        for(int row = 0; row < NumberOfRows; row++)
+        {
+            for (int col = 0; col < NumberOfColumns; col++)
+            {
+                yield return this[row, col];
+            }
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 
     public static bool operator ==(BitMatrix left, BitMatrix right)
