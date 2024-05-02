@@ -12,6 +12,19 @@ public class BitMatrix: IEquatable<BitMatrix>
     public int NumberOfColumns { get; }
     public bool IsReadOnly => false;
 
+    public bool this[int i, int j]
+    {
+        get
+        {
+            return data[i * NumberOfRows + j];
+        }
+
+        set
+        {
+            data[i * NumberOfRows + j] = value;
+        }
+    }
+
     // tworzy prostokątną macierz bitową wypełnioną `defaultValue`
     public BitMatrix(int numberOfRows, int numberOfColumns, int defaultValue = 0)
     {
