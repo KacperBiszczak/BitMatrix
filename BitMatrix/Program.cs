@@ -7,8 +7,8 @@
             BitMatrix b1 = new BitMatrix(2,2,new int[] { 1, 0, 0, 1, 1 });
             Console.WriteLine(b1);
 
-            int[] arr1 = { 1, 0, 3, 4, 0, 6 };
-            BitMatrix b2 = new BitMatrix(5, 6, arr1);
+            int[] arr1 = { 1, 0, 0, 4, 0, 6 };
+            BitMatrix b2 = new BitMatrix(2, 2, arr1);
             Console.WriteLine(b2);
 
             int[,] arr2 = { { 1, 0, 3 }, { 0, 1, 2 } };
@@ -23,6 +23,12 @@
             int[] arr4 = { };
             BitMatrix b5 = new BitMatrix(2,2,null);
             Console.WriteLine(b5);
+
+            Console.WriteLine(b1 == b3);
+
+            var m = new BitMatrix(1, 1);
+            Console.Write("Is equatable: ");
+            Console.Write(m is IEquatable<BitMatrix>);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Diagnostics.Metrics;
 namespace BitMatrix;
 
 // prostokątna macierz bitów o wymiarach m x n
-public class BitMatrix
+public class BitMatrix: IEquatable<BitMatrix>
 {
     private BitArray data;
     public int NumberOfRows { get; }
@@ -80,5 +80,48 @@ public class BitMatrix
         }
 
         return result;
+    }
+
+    public bool Equals(BitMatrix? other)
+    {
+        if (other == null)
+            return false;
+
+        if (NumberOfRows != other.NumberOfRows || NumberOfColumns != other.NumberOfColumns)
+            return false;
+
+        for (int i = 0; i < other.data.Length; i++)
+        {
+            if (data[i] != other.data[i]) 
+                return false;
+        }
+
+        return true;
+    }
+
+    public override bool Equals(object other)
+    {
+        if (other == null || !(other.GetType() == typeof(BitMatrix)))
+            return false;
+
+        return Equals((BitMatrix)other);
+    }
+
+    public override int GetHashCode()
+    {
+        return data.GetHashCode();
+    }
+
+    public static bool operator ==(BitMatrix left, BitMatrix right)
+    {
+        if (ReferenceEquals(left, null))
+            return ReferenceEquals(right, null);
+    
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(BitMatrix left, BitMatrix right)
+    {
+        return !(left == right);
     }
 }
