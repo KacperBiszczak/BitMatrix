@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics.Metrics;
 
 namespace BitMatrix;
 
@@ -21,6 +22,47 @@ public class BitMatrix
         NumberOfColumns = numberOfColumns;
     }
 
+    public BitMatrix(int numberOfRows, int numberOfColumns, params int[] bits) : this(numberOfRows, numberOfColumns, 0)
+    {
+        if(bits != null)
+        {
+            if (bits.Length > 0)
+            {
+                for (int i = 0; i < bits.Length; i++)
+                {
+                    if (i < bits.Length && i < data.Length)
+                        data[i] = BitToBool(bits[i]);
+                }
+            }
+        }
+    }
+
+    public BitMatrix(int[,] bits) : this(bits.GetLength(0), bits.GetLength(1))
+    {
+        if (bits == null) throw new NullReferenceException();
+        if (bits.Length == 0) throw new ArgumentOutOfRangeException();
+
+        int counter = 0;
+        foreach (var bit in bits)
+        {
+            if (counter < bits.Length && counter < data.Length)
+                data[counter++] = BitToBool(bit);
+        }
+    }
+
+    public BitMatrix(bool[,] bits) : this(bits.GetLength(0), bits.GetLength(1))
+    {
+        if (bits == null) throw new NullReferenceException();
+        if (bits.Length == 0) throw new ArgumentOutOfRangeException();
+
+        int counter = 0;
+        foreach (var bit in bits)
+        {
+            if(counter < bits.Length && counter < data.Length)
+                data[counter++] = bit;
+        }
+    }
+
     public static int BoolToBit(bool boolValue) => boolValue ? 1 : 0;
     public static bool BitToBool(int bit) => bit != 0;
 
@@ -33,7 +75,7 @@ public class BitMatrix
             
             if (i%NumberOfColumns == NumberOfColumns-1)
             {
-                result += Environment.NewLine;
+                result += "\r\n";
             }
         }
 
