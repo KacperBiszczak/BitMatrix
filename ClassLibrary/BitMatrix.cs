@@ -12,16 +12,17 @@ public class BitMatrix: IEquatable<BitMatrix>
     public int NumberOfColumns { get; }
     public bool IsReadOnly => false;
 
-    public bool this[int i, int j]
+    public int this[int row, int column]
     {
         get
         {
-            return data[i * NumberOfRows + j];
+            int index = row * NumberOfRows + column;
+            return BoolToBit(data[index]);
         }
 
         set
         {
-            data[i * NumberOfRows + j] = value;
+            //data[row * NumberOfRows + column] = value;
         }
     }
 

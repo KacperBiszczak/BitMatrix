@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             BitMatrix b1 = new BitMatrix(2,2,new int[] { 1, 0, 0, 1, 1 });
-            Console.WriteLine(b1);
+            Console.WriteLine(b1[1,1]);
 
             int[] arr1 = { 1, 0, 0, 4, 0, 6 };
             BitMatrix b2 = new BitMatrix(2, 2, arr1);
