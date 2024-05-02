@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace ClassLibrary;
+namespace BitMatrix;
 
 // prostokątna macierz bitów o wymiarach m x n
 public class BitMatrix
@@ -23,4 +23,20 @@ public class BitMatrix
 
     public static int BoolToBit(bool boolValue) => boolValue ? 1 : 0;
     public static bool BitToBool(int bit) => bit != 0;
+
+    public override string ToString()
+    {
+        string result = "";
+        for (int i = 0; i < data.Count; i++)
+        {
+            result += BoolToBit(data[i]).ToString();
+            
+            if (i%NumberOfColumns == NumberOfColumns-1)
+            {
+                result += Environment.NewLine;
+            }
+        }
+
+        return result;
+    }
 }

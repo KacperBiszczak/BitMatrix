@@ -4,7 +4,9 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            BitMatrix b1 = new BitMatrix(5, 8, 1);
+
+            Console.WriteLine(b1);
         }
     }
 }
