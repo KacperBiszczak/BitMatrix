@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics.Metrics;
+using System.Collections.Generic;
 
 namespace BitMatrix;
 
@@ -12,6 +13,7 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>
     public int NumberOfColumns { get; }
     public bool IsReadOnly => false;
 
+    // Indexer
     public int this[int row, int column]
     {
         get
@@ -133,13 +135,14 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>
         return data.GetHashCode();
     }
 
+    // Iterator
     public IEnumerator<int> GetEnumerator()
     {
-        for(int row = 0; row < NumberOfRows; row++)
+        for (int i = 0; i < NumberOfRows; i++)
         {
-            for (int col = 0; col < NumberOfColumns; col++)
+            for (int j = 0; j < NumberOfColumns; j++)
             {
-                yield return this[row, col];
+                yield return BoolToBit(data[i * NumberOfColumns + j]);
             }
         }
     }
@@ -148,6 +151,7 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>
     {
         return GetEnumerator();
     }
+
 
     public static bool operator ==(BitMatrix left, BitMatrix right)
     {
