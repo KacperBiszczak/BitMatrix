@@ -195,7 +195,7 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
             for (int col = 0; col < rows[0].Length; col++)
             {
                 cell = int.Parse(rows[row][col].ToString());
-                if (cell != 0 || cell != 1)
+                if (cell == 0 || cell == 1)
                 {
                     cells[row, col] = cell;
                 }
