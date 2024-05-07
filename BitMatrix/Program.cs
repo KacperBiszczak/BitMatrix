@@ -33,21 +33,32 @@
             //}
 
             // indekser - indeksy poza zakresem
-            int[] arr = new int[] { -1, 1, 3, 4 };
-            foreach (var i in arr)
-                foreach (var j in arr)
-                {
-                    var m = new BitMatrix(3, 4);
-                    try
-                    {
-                        m[i, j] = 1;
-                        Console.WriteLine($"m[{i}, {j}] = {m[i, j]}");
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        Console.WriteLine($"m[{i}, {j}] = exception");
-                    }
-                }
+            //int[] arr = new int[] { -1, 1, 3, 4 };
+            //foreach (var i in arr)
+            //    foreach (var j in arr)
+            //    {
+            //        var m = new BitMatrix(3, 4);
+            //        try
+            //        {
+            //            m[i, j] = 1;
+            //            Console.WriteLine($"m[{i}, {j}] = {m[i, j]}");
+            //        }
+            //        catch (IndexOutOfRangeException)
+            //        {
+            //            Console.WriteLine($"m[{i}, {j}] = exception");
+            //        }
+            //    }
+            int[,] arr = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
+            BitMatrix m = new BitMatrix(arr);
+            BitMatrix m1 = (BitMatrix)m.Clone();
+
+            Console.WriteLine(m);
+            Console.WriteLine(m1);
+
+            m[0, 0] = 0;
+
+            Console.WriteLine(m);
+            Console.WriteLine(m1);
         }
     }
 }

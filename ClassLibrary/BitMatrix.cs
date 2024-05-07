@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace BitMatrix;
 
 // prostokątna macierz bitów o wymiarach m x n
-public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>     
+public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
 {
     private BitArray data;
     public int NumberOfRows { get; }
@@ -21,7 +21,7 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>
             if(row < 0 || column < 0 || row >= NumberOfRows || column >= NumberOfColumns)
                 throw new IndexOutOfRangeException();
 
-            int index = row * NumberOfRows + column;
+            int index = row * NumberOfColumns + column;
             return BoolToBit(data[index]);
         }
 
@@ -30,7 +30,7 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>
             if (row < 0 || column < 0 || row >= NumberOfRows || column >= NumberOfColumns)
                 throw new IndexOutOfRangeException();
 
-            int index = row * NumberOfRows + column;
+            int index = row * NumberOfColumns + column;
             data[index] = BitToBool(value);
         }
     }
@@ -152,6 +152,19 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>
         return GetEnumerator();
     }
 
+    public object Clone()
+    {
+        var clonedMatrix = new BitMatrix(NumberOfRows, NumberOfColumns);
+        for(int row = 0; row < NumberOfRows; row++)
+        {
+            for(int col = 0; col < NumberOfColumns; col++)
+            {
+                clonedMatrix[row, col] = this[row, col];
+            }
+        }
+
+        return clonedMatrix;
+    }
 
     public static bool operator ==(BitMatrix left, BitMatrix right)
     {
