@@ -48,17 +48,24 @@
             //            Console.WriteLine($"m[{i}, {j}] = exception");
             //        }
             //    }
-            int[,] arr = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
-            BitMatrix m = new BitMatrix(arr);
-            BitMatrix m1 = (BitMatrix)m.Clone();
 
-            Console.WriteLine(m);
-            Console.WriteLine(m1);
+            //int[,] arr = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
+            //BitMatrix m = new BitMatrix(arr);
+            //BitMatrix m1 = (BitMatrix)m.Clone();
 
-            m[0, 0] = 0;
+            //Console.WriteLine(m);
+            //Console.WriteLine(m1);
 
-            Console.WriteLine(m);
-            Console.WriteLine(m1);
+            //m[0, 0] = 0;
+
+            //Console.WriteLine(m);
+            //Console.WriteLine(m1);
+
+            // Parse, dane poprawne
+            string s = @"1111
+                        0000
+                        1100";
+            Console.WriteLine(BitMatrix.Parse(s));
         }
     }
 }

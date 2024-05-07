@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Diagnostics.Metrics;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace BitMatrix;
 
@@ -164,6 +165,42 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
         }
 
         return clonedMatrix;
+    }
+
+    public static BitMatrix Parse(string s)
+    {
+        // Check is null
+        if(s == null) throw new ArgumentNullException("s");
+
+        string[] rows = s.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+        // Remove white-spaces rows
+        for(int i =  0; i < rows.Length; i++)
+        {
+            rows[i] = rows[i].Trim();
+        }
+
+        // Checking format
+        foreach (var row in rows)
+        {
+            if (rows[0].Length != row.Length)
+                throw new FormatException();
+        }
+       
+        int[,] cells = new int[rows.Length, rows[0].Trim().Length];
+        int cell = 0;
+
+        for(int row = 0; row < rows.Length; row++)
+        {
+            for (int col = 0; col < rows[0].Length; col++)
+            {
+                cell = int.Parse(rows[row][col].ToString());
+                if (cell != 0 || cell != 1)
+                    cells[row, col] = cell;
+            }
+        }
+
+        return new BitMatrix(cells);
     }
 
     public static bool operator ==(BitMatrix left, BitMatrix right)
