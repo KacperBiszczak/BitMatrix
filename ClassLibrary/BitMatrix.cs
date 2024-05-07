@@ -196,7 +196,13 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
             {
                 cell = int.Parse(rows[row][col].ToString());
                 if (cell != 0 || cell != 1)
+                {
                     cells[row, col] = cell;
+                }
+                else
+                {
+                    throw new FormatException();
+                }
             }
         }
 
