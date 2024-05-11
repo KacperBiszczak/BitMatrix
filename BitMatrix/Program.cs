@@ -61,11 +61,19 @@
             //Console.WriteLine(m);
             //Console.WriteLine(m1);
 
-            // Parse, dane poprawne
-            string s = @"1111
-                        0000
-                        1100";
-            Console.WriteLine(BitMatrix.Parse(s));
+            // Parse, string pusty
+
+            BitMatrix m = null;
+
+            // TryParse, parametr null
+            Console.WriteLine(
+              BitMatrix.TryParse(null, out m)
+            );
+
+            // TryParse, pusty string
+            Console.WriteLine(
+              BitMatrix.TryParse(string.Empty, out m)
+            );
         }
     }
 }

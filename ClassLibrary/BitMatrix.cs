@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics.Metrics;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Dynamic;
 
 namespace BitMatrix;
 
@@ -170,7 +171,7 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
     public static BitMatrix Parse(string s)
     {
         // Check is null
-        if(s == null) throw new ArgumentNullException("s");
+        if(s == null || s.Length < 1) throw new ArgumentNullException("s");
 
         string[] rows = s.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
@@ -207,6 +208,22 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
         }
 
         return new BitMatrix(cells);
+    }
+
+    public static bool TryParse(string s, out BitMatrix result)
+    {
+        result = null;
+
+        try
+        {
+            Console.WriteLine(BitMatrix.Parse(s));
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public static bool operator ==(BitMatrix left, BitMatrix right)
