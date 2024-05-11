@@ -10,12 +10,14 @@ namespace BitMatrix;
 // prostokątna macierz bitów o wymiarach m x n
 public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
 {
+    #region Properties
     private BitArray data;
     public int NumberOfRows { get; }
     public int NumberOfColumns { get; }
     public bool IsReadOnly => false;
+    #endregion
 
-    // Indexer
+    #region Indexer
     public int this[int row, int column]
     {
         get
@@ -36,7 +38,9 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
             data[index] = BitToBool(value);
         }
     }
+    #endregion
 
+    #region Constructors
     // tworzy prostokątną macierz bitową wypełnioną `defaultValue`
     public BitMatrix(int numberOfRows, int numberOfColumns, int defaultValue = 0)
     {
@@ -87,10 +91,14 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
                 data[counter++] = bit;
         }
     }
+    #endregion
 
+    #region BoolToBit, BitToBool
     public static int BoolToBit(bool boolValue) => boolValue ? 1 : 0;
     public static bool BitToBool(int bit) => bit != 0;
+    #endregion
 
+    #region ToString
     public override string ToString()
     {
         string result = "";
@@ -106,7 +114,9 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
 
         return result;
     }
+    #endregion
 
+    #region IEquatable
     public bool Equals(BitMatrix? other)
     {
         if (other == null)
@@ -136,8 +146,8 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
     {
         return data.GetHashCode();
     }
-
-    // Iterator
+    #endregion
+    #region IEnumerable (Iterator)
     public IEnumerator<int> GetEnumerator()
     {
         for (int i = 0; i < NumberOfRows; i++)
@@ -153,7 +163,8 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
     {
         return GetEnumerator();
     }
-
+    #endregion
+    #region IClonable
     public object Clone()
     {
         var clonedMatrix = new BitMatrix(NumberOfRows, NumberOfColumns);
@@ -167,7 +178,9 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
 
         return clonedMatrix;
     }
+    #endregion
 
+    #region Parse
     public static BitMatrix Parse(string s)
     {
         // Check is null
@@ -225,7 +238,9 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
 
         return true;
     }
+    #endregion
 
+    #region Operators 
     public static bool operator ==(BitMatrix left, BitMatrix right)
     {
         if (ReferenceEquals(left, null))
@@ -238,4 +253,5 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
     {
         return !(left == right);
     }
+    #endregion
 }
