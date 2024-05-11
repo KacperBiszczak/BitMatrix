@@ -4,6 +4,7 @@ using System.Diagnostics.Metrics;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Dynamic;
+using System.Resources;
 
 namespace BitMatrix;
 
@@ -240,6 +241,151 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
     }
     #endregion
 
+    #region Implicit, Explicit (Ukryty, Jawny)
+
+    public static implicit operator int[,](BitMatrix m)
+    {
+        int[,] result = new int[m.NumberOfRows, m.NumberOfColumns];
+
+        for (int row = 0; row < m.NumberOfRows; row++)
+        {
+            for (int col = 0; col < m.NumberOfColumns; col++)
+            {
+                result[row, col] = m[row, col];
+            }
+        }
+
+        return result;
+    }
+
+    public static explicit operator BitMatrix(int[,] m)
+    {
+        if (m == null) throw new NullReferenceException();
+        if (m.Length < 1) throw new ArgumentOutOfRangeException();
+
+        return new BitMatrix(m);
+    }
+
+    public static implicit operator bool[,](BitMatrix m)
+    {
+        bool[,] result = new bool[m.NumberOfRows, m.NumberOfColumns];
+
+        for (int row = 0;row < m.NumberOfRows; row++)
+        {
+            for(int col = 0;col < m.NumberOfColumns; col++)
+            {
+                result[row, col] = Convert.ToBoolean(m[row, col]);
+            }
+        }
+
+        return result;
+    }
+
+    public static explicit operator BitMatrix(bool[,] m)
+    {
+        if (m == null) throw new NullReferenceException();
+        if (m.Length < 1) throw new ArgumentOutOfRangeException();
+
+        return new BitMatrix(m);
+    }
+
+    public static explicit operator BitArray(BitMatrix m)
+    {
+        int length = m.NumberOfRows * m.NumberOfColumns;
+        int counter = 0;
+
+        BitArray arr = new BitArray(length);
+
+        foreach(var bit in (bool[,])m)
+        {
+            if(counter < length)
+            {
+                arr[counter++] = bit;
+            }
+        }
+
+        return arr;
+    }
+
+    #endregion
+
+    #region BitOperations
+
+    public BitMatrix And(BitMatrix other)
+    {
+        if(other == null) throw new ArgumentNullException();
+        if (NumberOfRows != other.NumberOfRows || NumberOfColumns != other.NumberOfColumns) throw new ArgumentException();
+
+        for (int row = 0; row < NumberOfRows; row++)
+        {
+            for (int col = 0; col < NumberOfColumns; col++)
+            {
+                if (this[row, col] == 1 && other[row, col] == 1)
+                    this[row, col] = 1;
+                else
+                    this[row, col] = 0;
+            }
+        }
+
+        return this;
+    }
+
+    public BitMatrix Or(BitMatrix other)
+    {
+        if (other == null) throw new ArgumentNullException();
+        if (NumberOfRows != other.NumberOfRows || NumberOfColumns != other.NumberOfColumns) throw new ArgumentException();
+
+        for (int row = 0; row < NumberOfRows; row++)
+        {
+            for (int col = 0; col < NumberOfColumns; col++)
+            {
+                if (this[row, col] == 1 || other[row, col] == 1)
+                    this[row, col] = 1;
+                else
+                    this[row, col] = 0;
+            }
+        }
+
+        return this;
+    }
+    
+    public BitMatrix Xor(BitMatrix other)
+    {
+        if (other == null) throw new ArgumentNullException();
+        if (NumberOfRows != other.NumberOfRows || NumberOfColumns != other.NumberOfColumns) throw new ArgumentException();
+
+        for (int row = 0; row < NumberOfRows; row++)
+        {
+            for (int col = 0; col < NumberOfColumns; col++)
+            {
+                if (this[row, col] != other[row, col])
+                    this[row, col] = 1;
+                else
+                    this[row, col] = 0;
+            }
+        }
+
+        return this;
+    }
+
+    public BitMatrix Not()
+    {
+        for (int row = 0; row < NumberOfRows; row++)
+        {
+            for (int col = 0; col < NumberOfColumns; col++)
+            {
+                if (this[row, col] == 1)
+                    this[row, col] = 0;
+                else
+                    this[row, col] = 1;
+            }
+        }
+
+        return this;
+    }
+
+    #endregion
+
     #region Operators 
     public static bool operator ==(BitMatrix left, BitMatrix right)
     {
@@ -252,6 +398,26 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
     public static bool operator !=(BitMatrix left, BitMatrix right)
     {
         return !(left == right);
+    }
+
+    public static BitMatrix operator &(BitMatrix left, BitMatrix right)
+    {
+        return left.And(right);
+    }
+
+    public static BitMatrix operator |(BitMatrix left, BitMatrix right)
+    {
+        return left.Or(right);
+    }
+
+    public static BitMatrix operator ^(BitMatrix left, BitMatrix right)
+    {
+        return left.Xor(right);
+    }
+
+    public static BitMatrix operator !(BitMatrix left)
+    {
+        return left.Not();
     }
     #endregion
 }
