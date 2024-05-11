@@ -216,9 +216,9 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
 
         try
         {
-            Console.WriteLine(BitMatrix.Parse(s));
+            result = BitMatrix.Parse(s);
         }
-        catch(Exception e)
+        catch(Exception)
         {
             return false;
         }
