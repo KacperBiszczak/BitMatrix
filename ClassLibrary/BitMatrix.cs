@@ -402,22 +402,34 @@ public class BitMatrix: IEquatable<BitMatrix>, IEnumerable<int>, ICloneable
 
     public static BitMatrix operator &(BitMatrix left, BitMatrix right)
     {
-        return left.And(right);
+        if (left == null || right == null) throw new ArgumentNullException();
+
+        BitMatrix leftClone = (BitMatrix)left.Clone();
+        return leftClone.And(right);
     }
 
     public static BitMatrix operator |(BitMatrix left, BitMatrix right)
     {
-        return left.Or(right);
+        if (left == null || right == null) throw new ArgumentNullException();
+
+        BitMatrix leftClone = (BitMatrix)left.Clone();
+        return leftClone.Or(right);
     }
 
     public static BitMatrix operator ^(BitMatrix left, BitMatrix right)
     {
-        return left.Xor(right);
+        if (left == null || right == null) throw new ArgumentNullException();
+
+        BitMatrix leftClone = (BitMatrix)left.Clone();
+        return leftClone.Xor(right);
     }
 
     public static BitMatrix operator !(BitMatrix left)
     {
-        return left.Not();
+        if (left == null) throw new ArgumentNullException();
+
+        BitMatrix leftClone = (BitMatrix)left.Clone();
+        return leftClone.Not();
     }
     #endregion
 }
